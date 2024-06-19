@@ -81,6 +81,15 @@ namespace windows {
             if (item && item->IsA(SDK::ABotPawn_C::StaticClass())) {
                 auto actor = reinterpret_cast<SDK::AShooterCharacter*>(item);
                 if (actor->Health > 0) {
+
+                    for (const auto& material : actor->Mesh->GetMaterials()) {
+                        material->GetBaseMaterial()->bIsBlendable = 1;
+                        material->GetBaseMaterial()->BlendMode = SDK::EBlendMode::BLEND_Additive;
+                        material->GetBaseMaterial()->ShadingModel = SDK::EMaterialShadingModel::MSM_Unlit;
+                        material->GetBaseMaterial()->bDisableDepthTest = 1;
+                        material->GetBaseMaterial()->Wireframe = 1;
+                    }
+
                     // draw box
                     auto world_pos = actor->RootComponent->RelativeLocation;
                     SDK::FVector2D screen_pos;
